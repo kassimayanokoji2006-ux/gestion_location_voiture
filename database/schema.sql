@@ -103,3 +103,33 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+#pour le tableau de bord 
+
+USE gestion_location_voiture;
+
+CREATE OR REPLACE VIEW v_reservation_solde AS
+SELECT r.id_reservation,
+       r.id_client,
+       r.id_voiture,
+       r.statut,
+       r.montant_total,
+       COALESCE(SUM(p.montant), 0) AS total_paye,
+       r.montant_total - COALESCE(SUM(p.montant), 0) AS reste_a_payer
+FROM reservation r
+LEFT JOIN paiement p ON p.id_reservation = r.id_reservation
+GROUP BY r.id_reservation, r.id_client, r.id_voiture, r.statut, r.montant_total;
+
+CREATE OR REPLACE VIEW v_voitures_plus_louees AS
+SELECT v.id_voiture,
+       v.marque,
+       v.modele,
+       v.immatriculation,
+       COUNT(r.id_reservation) AS nb_reservations,
+       COALESCE(SUM(r.montant_total), 0) AS chiffre_affaires
+FROM voiture v
+LEFT JOIN reservation r
+       ON r.id_voiture = v.id_voiture AND r.statut <> 'annulee'
+GROUP BY v.id_voiture, v.marque, v.modele, v.immatriculation;

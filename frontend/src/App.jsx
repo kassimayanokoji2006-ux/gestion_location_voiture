@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TableauDeBord from "./pages/TableauDeBord";
 import Clients from "./pages/clients";
 import Categories from "./pages/categories";
 import Voitures from "./pages/voitures";
@@ -7,19 +8,21 @@ import Paiements from "./pages/paiement";
 import Disponibilites from "./pages/disponibilites";
 
 function App() {
-  const [page, setPage] = useState("clients");
+  const [page, setPage] = useState("tableau");
 
   return (
     <div>
       <nav>
+        <button onClick={() => setPage("tableau")}>Tableau de bord</button>
         <button onClick={() => setPage("clients")}>Clients</button>
         <button onClick={() => setPage("categories")}>Catégories</button>
         <button onClick={() => setPage("voitures")}>Voitures</button>
         <button onClick={() => setPage("reservations")}>Réservations</button>
         <button onClick={() => setPage("paiements")}>Paiements</button>
         <button onClick={() => setPage("disponibilites")}>Disponibilités</button>
+        
       </nav>
-
+      {page === "tableau" && <TableauDeBord />}
       {page === "clients" && <Clients />}
       {page === "categories" && <Categories />}
       {page === "voitures" && <Voitures />}
@@ -28,6 +31,7 @@ function App() {
       {page === "disponibilites" && <Disponibilites />}
     </div>
   );
+  
 }
 
 export default App;

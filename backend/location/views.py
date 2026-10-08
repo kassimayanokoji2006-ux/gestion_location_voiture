@@ -1,4 +1,5 @@
 from datetime import date
+from django.db import connection
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -68,3 +69,51 @@ def voitures_disponibles(request):
 
     serializer = VoitureSerializer(voitures, many=True)
     return Response(serializer.data)
+
+
+#pour le tableau de bord
+def lignes(cursor):
+    colonnes = [c[0] for c in cursor.description]
+    return [dict(zip(colonnes, ligne)) for ligne in cursor.fetchall()]
+
+
+@api_view(['GET'])
+def tableau_de_bord(request):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT statut, COUNT(*) AS nombre FROM voiture GROUP BY statut"
+        )
+        voitures = lignes(cursor)
+
+        cursor.execute(
+            "SELECT statut, COUNT(*) AS nombre FROM reservation GROUP BY statut"
+        )
+        reservations = lignes(cursor)
+
+        cursor.execute(
+            """
+            SELECT COALESCE(SUM(montant_total), 0) AS total_facture,
+                   COALESCE(SUM(total_paye), 0) AS total_encaisse,
+                   COALESCE(SUM(reste_a_payer), 0) AS total_reste
+            FROM v_reservation_solde
+            WHERE statut <> 'annulee'
+            """
+        )
+        finances = lignes(cursor)[0]
+
+        cursor.execute(
+            """
+            SELECT marque, modele, immatriculation, nb_reservations, chiffre_affaires
+            FROM v_voitures_plus_louees
+            ORDER BY nb_reservations DESC, chiffre_affaires DESC
+            LIMIT 5
+            """
+        )
+        top_voitures = lignes(cursor)
+
+    return Response({
+        'voitures': voitures,
+        'reservations': reservations,
+        'finances': finances,
+        'top_voitures': top_voitures,
+    })
