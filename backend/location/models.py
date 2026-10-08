@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import date
 class Client(models.Model):
     id_client = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=50)
@@ -51,3 +51,24 @@ class Voiture(models.Model):
 
     def __str__(self):
         return f"{self.marque} {self.modele} ({self.immatriculation})"
+
+class Reservation(models.Model):
+    id_reservation = models.AutoField(primary_key=True)
+    date_reservation = models.DateField(default=date.today)
+    date_debut = models.DateField()
+    date_fin = models.DateField()
+    statut = models.CharField(max_length=20, default='en_attente')
+    montant_total = models.DecimalField(max_digits=10, decimal_places=2)
+    client = models.ForeignKey(
+        Client, on_delete=models.PROTECT, db_column='id_client'
+    )
+    voiture = models.ForeignKey(
+        Voiture, on_delete=models.PROTECT, db_column='id_voiture'
+    )
+
+    class Meta:
+        db_table = 'reservation'
+        managed = False
+
+    def __str__(self):
+        return f"Reservation {self.id_reservation}"
