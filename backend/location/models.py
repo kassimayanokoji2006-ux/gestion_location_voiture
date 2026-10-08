@@ -72,3 +72,20 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation {self.id_reservation}"
+
+class Paiement(models.Model):
+    id_paiement = models.AutoField(primary_key=True)
+    date_paiement = models.DateField(default=date.today)
+    montant = models.DecimalField(max_digits=10, decimal_places=2)
+    mode_paiement = models.CharField(max_length=20)
+    reference = models.CharField(max_length=50, null=True, blank=True)
+    reservation = models.ForeignKey(
+        Reservation, on_delete=models.PROTECT, db_column='id_reservation'
+    )
+
+    class Meta:
+        db_table = 'paiement'
+        managed = False
+
+    def __str__(self):
+        return f"Paiement {self.id_paiement}"
