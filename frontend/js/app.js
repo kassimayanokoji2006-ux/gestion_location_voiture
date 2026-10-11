@@ -4,6 +4,7 @@ import { afficherVoitures } from "./pages/voitures.js";
 import { afficherReservations } from "./pages/reservation.js";
 import { afficherPaiements } from "./pages/paiements.js";
 import { afficherDisponibilites } from "./pages/disponibilite.js";
+import { afficherTableauDeBord } from "./pages/tableaudebord.js";
 
 
 
@@ -14,6 +15,7 @@ const pages = {
     reservations: { titre: "Réservations", afficher: afficherReservations },
     paiements: { titre: "Paiements", afficher: afficherPaiements },
     disponibilites: { titre: "Disponibilités", afficher: afficherDisponibilites },
+    tableau_de_bord: { titre: "Tableau de bord", afficher: afficherTableauDeBord },
 };
 
 const menu = document.getElementById("menu");
@@ -31,4 +33,4 @@ for (const nom in pages) {
   menu.appendChild(bouton);
 }
 
-ouvrir("clients");
+ouvrir("tableau_de_bord");
