@@ -1,16 +1,43 @@
-# React + Vite
+# Frontend (JavaScript pur)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Interface de gestion de location de voitures : HTML + JavaScript (modules ES), sans React ni npm.
 
-Currently, two official plugins are available:
+## Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+frontend/
+├── index.html
+└── js/
+    ├── config.js        adresse de l'API (à modifier au déploiement)
+    ├── api.js           requêtes fetch (GET, POST, PUT, DELETE)
+    ├── outils.js        echapper() et argent()
+    ├── app.js           menu et navigation
+    └── pages/
+        ├── tableau-de-bord.js
+        ├── clients.js
+        ├── categories.js
+        ├── voitures.js
+        ├── disponibilites.js
+        ├── reservations.js
+        └── paiements.js
+```
 
-## React Compiler
+## Lancer en local
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Les modules ES ne fonctionnent pas en double-cliquant sur `index.html` : il faut un petit serveur.
 
-## Expanding the Oxlint configuration
+```bash
+cd frontend
+python -m http.server 5500
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Puis ouvrir http://localhost:5500 (l'API Django doit tourner sur le port 8000).
+
+Avec VS Code, l'extension **Live Server** (clic droit sur `index.html` > Open with Live Server) fonctionne aussi.
+
+## Déploiement (Render, Static Site)
+
+- Root Directory : `frontend`
+- Build Command : (vide)
+- Publish Directory : `.`
+- Dans `js/config.js`, remplacer `API_URL` par l'adresse de l'API déployée, par exemple `https://ton-api.onrender.com/api`.
