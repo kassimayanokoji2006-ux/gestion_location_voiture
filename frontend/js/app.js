@@ -2,11 +2,18 @@ import { afficherClients } from "./pages/clients.js";
 import { afficherCategories } from "./pages/categories.js";
 import { afficherVoitures } from "./pages/voitures.js";
 import { afficherReservations } from "./pages/reservation.js";
+import { afficherPaiements } from "./pages/paiements.js";
+import { afficherDisponibilites } from "./pages/disponibilite.js";
+
+
+
 const pages = {
     clients: { titre: "Clients", afficher: afficherClients },
     categories: { titre: "Catégories", afficher: afficherCategories },
     voitures: { titre: "Voitures", afficher: afficherVoitures},
     reservations: { titre: "Réservations", afficher: afficherReservations },
+    paiements: { titre: "Paiements", afficher: afficherPaiements },
+    disponibilites: { titre: "Disponibilités", afficher: afficherDisponibilites },
 };
 
 const menu = document.getElementById("menu");
