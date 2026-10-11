@@ -37,11 +37,11 @@ export function afficherClients(conteneur) {
     </table>
   `;
 
+  const corps = conteneur.querySelector("#corps");
   const formulaire = conteneur.querySelector("#formulaire");
   const titre = conteneur.querySelector("#titre-formulaire");
   const btnValider = conteneur.querySelector("#btn-valider");
   const btnAnnuler = conteneur.querySelector("#btn-annuler");
-  const corps = conteneur.querySelector("#corps");
 
   function dessiner() {
     corps.innerHTML = clients

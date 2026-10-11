@@ -6,7 +6,6 @@ async function requete(chemin, options = {}) {
     ...options,
   });
 
-  // Après un DELETE, Django répond 204 : succès sans contenu
   if (reponse.status === 204) {
     return null;
   }
