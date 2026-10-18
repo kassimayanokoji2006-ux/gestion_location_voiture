@@ -100,7 +100,7 @@ function ouvrir(nom) {
     }
   }
 
-  fermerMenuMobile();
+  fermerMenuMobile({ rendreFocus: true });
 }
 
 barreLaterale.inert = navigationMobile.matches;
