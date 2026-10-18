@@ -174,6 +174,11 @@ img {
   margin-left: 240px;
 }
 
+.bouton-menu-mobile,
+.voile-menu {
+  display: none;
+}
+
 .barre-superieure {
   display: flex;
   align-items: center;
@@ -664,7 +669,305 @@ img {
 .espace-moyen { height: 16px; }
 .espace-grand { height: 24px; }
 
+.entete-tableau {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#contenu .entete-tableau h1 {
+  margin: 0 0 7px;
+  font-size: clamp(1.65rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.entete-tableau p,
+.entete-section-tableau p,
+.entete-repartition p {
+  color: var(--texte-secondaire);
+  font-size: 0.9rem;
+}
+
+.statistiques-principales {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.statistiques-principales .carte-statistique {
+  min-height: 150px;
+  align-content: center;
+  gap: 10px;
+  padding: 22px;
+}
+
+.statistiques-principales .carte-statistique::before {
+  display: none;
+}
+
+.statistiques-principales .etiquette {
+  padding-right: 44px;
+  letter-spacing: 0.035em;
+  text-transform: none;
+}
+
+.statistiques-principales .valeur {
+  padding-right: 8px;
+  font-size: clamp(1.15rem, 1.65vw, 1.65rem);
+  overflow-wrap: anywhere;
+}
+
+.carte-statistique--violet {
+  background: linear-gradient(135deg, var(--violet-clair), #ffffff);
+}
+
+.carte-statistique--bleu {
+  background: linear-gradient(135deg, var(--bleu-pastel), #ffffff);
+}
+
+.carte-statistique--peche {
+  background: linear-gradient(135deg, var(--peche-pastel), #ffffff);
+}
+
+.carte-statistique--vert {
+  background: linear-gradient(135deg, var(--vert-pastel), #ffffff);
+}
+
+.icone-statistique {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+}
+
+.icone-statistique svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icone-statistique--violet {
+  background: rgba(109, 40, 217, 0.1);
+  color: var(--violet-principal);
+}
+
+.icone-statistique--bleu {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+}
+
+.icone-statistique--peche {
+  background: rgba(234, 88, 12, 0.1);
+  color: #c2410c;
+}
+
+.icone-statistique--vert {
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--succes);
+}
+
+.section-tableau {
+  display: grid;
+  gap: 16px;
+}
+
+.entete-section-tableau {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+#contenu .entete-section-tableau h2,
+#contenu .entete-repartition h3 {
+  margin: 0 0 6px;
+  color: var(--texte);
+  font-size: 1.08rem;
+  font-weight: 750;
+}
+
+.grille-statuts {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+}
+
+.panneau-statuts {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-grand);
+  background: var(--conteneur);
+  box-shadow: var(--ombre-carte);
+}
+
+#contenu .panneau-statuts h3 {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.liste-statuts,
+.legende-repartition {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.element-statut,
+.element-legende {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--texte-secondaire);
+  font-size: 0.84rem;
+}
+
+.element-statut strong,
+.element-legende strong {
+  margin-left: auto;
+  color: var(--texte);
+  font-variant-numeric: tabular-nums;
+}
+
+.point-legende {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+}
+
+.point-legende--succes {
+  background: var(--succes);
+}
+
+.point-legende--violet {
+  background: var(--violet-secondaire);
+}
+
+.point-legende--avertissement {
+  background: var(--avertissement);
+}
+
+.point-legende--danger {
+  background: var(--danger);
+}
+
+.entete-repartition {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+#contenu .entete-repartition h3 {
+  margin-bottom: 5px;
+}
+
+.total-repartition {
+  display: grid;
+  min-width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--violet-clair);
+  color: var(--violet-fonce);
+  font-size: 0.9rem;
+}
+
+.graphique-repartition {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f1eff5;
+}
+
+.legende-repartition {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+
+#contenu .tableau-tableau-bord table {
+  min-width: 620px;
+}
+
+.tableau-tableau-bord th,
+.tableau-tableau-bord td {
+  padding: 15px 18px;
+}
+
+.nom-voiture {
+  color: var(--texte);
+  font-weight: 700;
+}
+
+.plaque-immatriculation {
+  display: inline-block;
+  padding: 5px 9px;
+  border: 1px solid var(--bordure);
+  border-radius: 7px;
+  background: #faf9fc;
+  color: var(--texte-secondaire);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.chiffre-affaires {
+  color: var(--texte);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tableau-vide {
+  padding: 28px 18px !important;
+  color: var(--texte-secondaire);
+  text-align: center !important;
+}
+
+.chargement-tableau {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--texte-secondaire);
+  font-size: 0.92rem;
+}
+
+.indicateur-chargement {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--violet-clair);
+  border-top-color: var(--violet-principal);
+  border-radius: 50%;
+  animation: rotation-chargement 0.8s linear infinite;
+}
+
+#contenu .message--erreur h1 {
+  margin: 0 0 8px;
+  color: inherit;
+  font-size: 1.05rem;
+}
+
+@keyframes rotation-chargement {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 980px) {
+  .statistiques-principales {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .barre-laterale {
     width: 224px;
   }
@@ -683,12 +986,68 @@ img {
 }
 
 @media (max-width: 760px) {
+  .grille-statuts {
+    grid-template-columns: 1fr;
+  }
+
   .barre-laterale {
-    position: static;
-    width: 100%;
-    padding: 16px 16px 12px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+    width: min(84vw, 300px);
+    padding: 24px 18px;
     border-right: 0;
-    border-bottom: 1px solid var(--bordure);
+    border-bottom: 0;
+    box-shadow: 12px 0 36px rgba(31, 41, 55, 0.12);
+    transform: translateX(-105%);
+    transition: transform 0.24s ease;
+    visibility: hidden;
+  }
+
+  .menu-mobile-ouvert .barre-laterale {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .voile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: block;
+    border: 0;
+    background: rgba(31, 41, 55, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+  }
+
+  .menu-mobile-ouvert .voile-menu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .bouton-menu-mobile {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--bordure);
+    border-radius: 12px;
+    background: var(--conteneur);
+    color: var(--texte);
+    cursor: pointer;
+  }
+
+  .bouton-menu-mobile svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .bouton-menu-mobile:focus-visible {
+    outline: 3px solid rgba(109, 40, 217, 0.24);
+    outline-offset: 2px;
   }
 
   .enveloppe-application {
@@ -696,15 +1055,13 @@ img {
   }
 
   #menu {
-    display: flex;
+    display: grid;
     gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+    overflow: visible;
   }
 
   .lien-navigation {
-    width: auto;
-    flex: 0 0 auto;
+    width: 100%;
   }
 
   .pied-barre-laterale {
@@ -712,7 +1069,13 @@ img {
   }
 
   .barre-superieure {
+    justify-content: flex-start;
+    gap: 14px;
     padding: 0 20px;
+  }
+
+  .profil-administrateur {
+    margin-left: auto;
   }
 
   .contenu-page {
@@ -721,6 +1084,35 @@ img {
 }
 
 @media (max-width: 520px) {
+  .statistiques-principales {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 760px) {
+    body.menu-mobile-ouvert {
+      overflow: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  .statistiques-principales .carte-statistique {
+    min-height: 128px;
+  }
+
+  .legende-repartition {
+    grid-template-columns: 1fr;
+  }
+
   #contenu > form {
     padding: 16px;
   }
