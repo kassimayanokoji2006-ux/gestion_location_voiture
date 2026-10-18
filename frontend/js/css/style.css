@@ -993,6 +993,23 @@ img {
   overflow-wrap: anywhere;
 }
 
+.resultat-disponibilites {
+  display: grid;
+  gap: 18px;
+}
+
+.disponibilites-statistiques {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.tableau-disponibilites {
+  overflow: hidden;
+}
+
+.tableau-disponibilites table {
+  min-width: 720px;
+}
+
 .panneau-formulaire-client {
   display: grid;
   gap: 20px;
