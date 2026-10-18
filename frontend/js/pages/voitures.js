@@ -1,101 +1,231 @@
 import { api, messageErreur } from "../api.js";
 import { echapper, argent } from "../outils.js";
 
+function presentationStatut(statut) {
+  const statutsConnus = {
+    disponible: { libelle: "Disponible", classe: "succes" },
+    loue: { libelle: "Louée", classe: "avertissement" },
+    maintenance: { libelle: "Maintenance", classe: "neutre" },
+  };
+  const presentation = statutsConnus[statut];
+
+  return presentation
+    ? `<span class="badge-statut badge-statut--${presentation.classe}">${presentation.libelle}</span>`
+    : `<span class="badge-statut badge-statut--neutre">${echapper(statut)}</span>`;
+}
+
 export function afficherVoitures(conteneur) {
   let voitures = [];
   let enModification = null;
 
   conteneur.innerHTML = `
-    <h1>Gestion des voitures</h1>
+    <section class="entete-tableau entete-page-donnees">
+      <div>
+        <h1>Voitures</h1>
+        <p>Gérez votre flotte, ses tarifs et ses disponibilités.</p>
+      </div>
+      <button
+        type="button"
+        id="btn-ajouter-voiture"
+        class="bouton-principal bouton-ajout-page"
+        aria-controls="panneau-formulaire-voiture"
+        aria-expanded="false"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+        Ajouter une voiture
+      </button>
+    </section>
 
-    <form id="formulaire">
-      <h2 id="titre-formulaire">Ajouter une voiture</h2>
-      <input name="immatriculation" placeholder="Immatriculation" required><br>
-      <input name="marque" placeholder="Marque" required><br>
-      <input name="modele" placeholder="Modèle" required><br>
-      <input name="annee" type="number" min="1990" max="2100" placeholder="Année"><br>
-      <input name="couleur" placeholder="Couleur"><br>
+    <div id="message-voitures" class="message message--erreur message-page-donnees" role="alert" hidden></div>
 
-      <select name="carburant">
-        <option value="Essence">Essence</option>
-        <option value="Diesel">Diesel</option>
-        <option value="Hybride">Hybride</option>
-        <option value="Electrique">Électrique</option>
-      </select><br>
+    <section id="panneau-formulaire-voiture" class="panneau panneau-formulaire-donnees" hidden>
+      <div class="entete-formulaire-donnees">
+        <h2 id="titre-formulaire">Ajouter une voiture</h2>
+        <p>Renseignez les informations du véhicule et sa catégorie.</p>
+      </div>
+      <form id="formulaire" class="formulaire-donnees">
+        <div class="grille-formulaire-donnees grille-formulaire-voiture">
+          <label for="voiture-immatriculation">
+            <span class="libelle-champ">Immatriculation <span aria-hidden="true">*</span></span>
+            <input id="voiture-immatriculation" name="immatriculation" required>
+          </label>
+          <label for="voiture-marque">
+            <span class="libelle-champ">Marque <span aria-hidden="true">*</span></span>
+            <input id="voiture-marque" name="marque" required>
+          </label>
+          <label for="voiture-modele">
+            <span class="libelle-champ">Modèle <span aria-hidden="true">*</span></span>
+            <input id="voiture-modele" name="modele" required>
+          </label>
+          <label for="voiture-annee">
+            <span class="libelle-champ">Année</span>
+            <input id="voiture-annee" name="annee" type="number" min="1990" max="2100">
+          </label>
+          <label for="voiture-couleur">
+            <span class="libelle-champ">Couleur</span>
+            <input id="voiture-couleur" name="couleur">
+          </label>
+          <label for="voiture-carburant">
+            <span class="libelle-champ">Carburant</span>
+            <select id="voiture-carburant" name="carburant">
+              <option value="Essence">Essence</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Hybride">Hybride</option>
+              <option value="Electrique">Électrique</option>
+            </select>
+          </label>
+          <label for="voiture-prix">
+            <span class="libelle-champ">Prix par jour <span aria-hidden="true">*</span></span>
+            <input id="voiture-prix" name="prix_jour" type="number" step="0.01" min="0" required>
+          </label>
+          <label for="voiture-statut">
+            <span class="libelle-champ">Statut</span>
+            <select id="voiture-statut" name="statut">
+              <option value="disponible">Disponible</option>
+              <option value="loue">Loué</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </label>
+          <label for="liste-categories">
+            <span class="libelle-champ">Catégorie <span aria-hidden="true">*</span></span>
+            <select name="categorie" id="liste-categories" required>
+              <option value="">Chargement des catégories…</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions-formulaire-donnees">
+          <button type="submit" id="btn-valider" class="bouton-principal">Ajouter</button>
+          <button type="button" id="btn-annuler" class="bouton-secondaire" hidden>Annuler</button>
+        </div>
+      </form>
+    </section>
 
-      <input name="prix_jour" type="number" step="0.01" min="0" placeholder="Prix par jour" required>
-
-      <br><select name="statut">
-        <option value="disponible">Disponible</option>
-        <option value="loue">Loué</option>
-        <option value="maintenance">Maintenance</option>
-      </select><br>
-
-      <select name="categorie" id="liste-categories" required>
-        <option value="">-- Choisir une catégorie --</option>
-      </select>
-
-      <button type="submit" id="btn-valider">Ajouter</button>
-      <button type="button" id="btn-annuler" hidden>Annuler</button>
-    </form>
-
-    <table border="1" cellpadding="8">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Immatriculation</th>
-          <th>Marque</th>
-          <th>Modèle</th>
-          <th>Année</th>
-          <th>Couleur</th>
-          <th>Carburant</th>
-          <th>Prix/jour</th>
-          <th>Statut</th>
-          <th>Catégorie</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="corps"></tbody>
-    </table>
+    <section class="section-tableau section-page-donnees" aria-labelledby="titre-liste-voitures">
+      <div class="entete-section-tableau">
+        <div>
+          <h2 id="titre-liste-voitures">Parc automobile</h2>
+          <p id="nombre-voitures">Chargement des voitures…</p>
+        </div>
+      </div>
+      <div class="tableau-defilant tableau-voitures">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Immatriculation</th>
+              <th scope="col">Marque</th>
+              <th scope="col">Modèle</th>
+              <th scope="col">Année</th>
+              <th scope="col">Couleur</th>
+              <th scope="col">Carburant</th>
+              <th scope="col">Prix par jour</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Catégorie</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="corps"></tbody>
+        </table>
+      </div>
+    </section>
   `;
 
   const formulaire = conteneur.querySelector("#formulaire");
+  const panneauFormulaire = conteneur.querySelector("#panneau-formulaire-voiture");
   const titre = conteneur.querySelector("#titre-formulaire");
+  const btnAjouter = conteneur.querySelector("#btn-ajouter-voiture");
   const btnValider = conteneur.querySelector("#btn-valider");
   const btnAnnuler = conteneur.querySelector("#btn-annuler");
   const corps = conteneur.querySelector("#corps");
   const listeCategories = conteneur.querySelector("#liste-categories");
+  const message = conteneur.querySelector("#message-voitures");
+  const nombreVoitures = conteneur.querySelector("#nombre-voitures");
+
+  function afficherMessage(texte) {
+    message.textContent = texte;
+    message.hidden = false;
+  }
+
+  function effacerMessage() {
+    message.textContent = "";
+    message.hidden = true;
+  }
+
+  function ouvrirFormulaire() {
+    effacerMessage();
+    panneauFormulaire.hidden = false;
+    btnAjouter.hidden = true;
+    btnAjouter.setAttribute("aria-expanded", "true");
+  }
 
   function dessiner() {
+    nombreVoitures.textContent = `${voitures.length} voiture${voitures.length > 1 ? "s" : ""}`;
+
+    if (voitures.length === 0) {
+      corps.innerHTML = `
+        <tr>
+          <td class="tableau-vide" colspan="11">
+            <div class="etat-vide-donnees">
+              <strong>Aucune voiture pour le moment</strong>
+              <span>Ajoutez une voiture pour la voir apparaître dans votre parc.</span>
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
     corps.innerHTML = voitures
       .map(
-        (v) => `
-        <tr>
-          <td>${v.id_voiture}</td>
-          <td>${echapper(v.immatriculation)}</td>
-          <td>${echapper(v.marque)}</td>
-          <td>${echapper(v.modele)}</td>
-          <td>${echapper(v.annee)}</td>
-          <td>${echapper(v.couleur)}</td>
-          <td>${echapper(v.carburant)}</td>
-          <td>${argent(v.prix_jour)}</td>
-          <td>${echapper(v.statut)}</td>
-          <td>${echapper(v.categorie_libelle)}</td>
-          <td>
-            <button data-action="modifier" data-id="${v.id_voiture}">Modifier</button>
-            <button data-action="supprimer" data-id="${v.id_voiture}">Supprimer</button>
-          </td>
-        </tr>`
+        (voiture) => `
+          <tr>
+            <td class="identifiant-donnee">${voiture.id_voiture}</td>
+            <td><span class="plaque-immatriculation">${echapper(voiture.immatriculation)}</span></td>
+            <td class="nom-donnee">${echapper(voiture.marque)}</td>
+            <td class="modele-voiture">${echapper(voiture.modele)}</td>
+            <td>${echapper(voiture.annee)}</td>
+            <td>${echapper(voiture.couleur)}</td>
+            <td>${echapper(voiture.carburant)}</td>
+            <td class="tarif-donnee">${argent(voiture.prix_jour)}</td>
+            <td>${presentationStatut(voiture.statut)}</td>
+            <td>${echapper(voiture.categorie_libelle)}</td>
+            <td>
+              <div class="actions-ligne-donnee">
+                <button type="button" class="bouton-secondaire" data-action="modifier" data-id="${voiture.id_voiture}">Modifier</button>
+                <button type="button" class="bouton-danger" data-action="supprimer" data-id="${voiture.id_voiture}">Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        `
       )
       .join("");
   }
 
   async function charger() {
+    nombreVoitures.textContent = "Chargement des voitures…";
+    corps.innerHTML = `
+      <tr>
+        <td class="chargement-donnees" colspan="11">
+          <span class="indicateur-chargement" aria-hidden="true"></span>
+          Chargement des voitures…
+        </td>
+      </tr>
+    `;
+
     try {
       voitures = await api.lister("/voitures/");
       dessiner();
     } catch (erreur) {
-      alert("Erreur : " + messageErreur(erreur));
+      voitures = [];
+      nombreVoitures.textContent = "Les voitures n’ont pas pu être chargées.";
+      corps.innerHTML = `
+        <tr>
+          <td class="tableau-vide" colspan="11">Les données ne sont pas disponibles.</td>
+        </tr>
+      `;
+      afficherMessage(`Erreur lors du chargement des voitures : ${messageErreur(erreur)}`);
     }
   }
 
@@ -106,12 +236,13 @@ export function afficherVoitures(conteneur) {
         `<option value="">-- Choisir une catégorie --</option>` +
         categories
           .map(
-            (c) =>
-              `<option value="${c.id_categorie}">${echapper(c.libelle)}</option>`
+            (categorie) =>
+              `<option value="${categorie.id_categorie}">${echapper(categorie.libelle)}</option>`
           )
           .join("");
     } catch (erreur) {
-      alert("Erreur : " + messageErreur(erreur));
+      listeCategories.innerHTML = `<option value="">Catégories indisponibles</option>`;
+      afficherMessage(`Impossible de charger les catégories : ${messageErreur(erreur)}`);
     }
   }
 
@@ -120,11 +251,26 @@ export function afficherVoitures(conteneur) {
     enModification = null;
     titre.textContent = "Ajouter une voiture";
     btnValider.textContent = "Ajouter";
-    btnAnnuler.hidden = true;
+    panneauFormulaire.hidden = true;
+    btnAjouter.hidden = false;
+    btnAjouter.setAttribute("aria-expanded", "false");
+    effacerMessage();
+    btnAjouter.focus();
   }
+
+  btnAjouter.addEventListener("click", () => {
+    formulaire.reset();
+    enModification = null;
+    titre.textContent = "Ajouter une voiture";
+    btnValider.textContent = "Ajouter";
+    btnAnnuler.hidden = false;
+    ouvrirFormulaire();
+    formulaire.elements.immatriculation.focus();
+  });
 
   formulaire.addEventListener("submit", async (e) => {
     e.preventDefault();
+    effacerMessage();
 
     const donnees = Object.fromEntries(new FormData(formulaire));
     donnees.annee = donnees.annee || null;
@@ -139,7 +285,7 @@ export function afficherVoitures(conteneur) {
       annuler();
       await charger();
     } catch (erreur) {
-      alert("Erreur : " + messageErreur(erreur));
+      afficherMessage(`Enregistrement impossible : ${messageErreur(erreur)}`);
     }
   });
 
@@ -152,29 +298,34 @@ export function afficherVoitures(conteneur) {
     const id = Number(bouton.dataset.id);
 
     if (bouton.dataset.action === "modifier") {
-      const v = voitures.find((x) => x.id_voiture === id);
-      formulaire.elements.immatriculation.value = v.immatriculation;
-      formulaire.elements.marque.value = v.marque;
-      formulaire.elements.modele.value = v.modele;
-      formulaire.elements.annee.value = v.annee ?? "";
-      formulaire.elements.couleur.value = v.couleur ?? "";
-      formulaire.elements.carburant.value = v.carburant;
-      formulaire.elements.prix_jour.value = v.prix_jour;
-      formulaire.elements.statut.value = v.statut;
-      formulaire.elements.categorie.value = v.categorie;
+      const voiture = voitures.find((element) => element.id_voiture === id);
+      if (!voiture) return;
+
+      formulaire.elements.immatriculation.value = voiture.immatriculation;
+      formulaire.elements.marque.value = voiture.marque;
+      formulaire.elements.modele.value = voiture.modele;
+      formulaire.elements.annee.value = voiture.annee ?? "";
+      formulaire.elements.couleur.value = voiture.couleur ?? "";
+      formulaire.elements.carburant.value = voiture.carburant;
+      formulaire.elements.prix_jour.value = voiture.prix_jour;
+      formulaire.elements.statut.value = voiture.statut;
+      formulaire.elements.categorie.value = voiture.categorie;
       enModification = id;
       titre.textContent = "Modifier la voiture";
       btnValider.textContent = "Enregistrer";
       btnAnnuler.hidden = false;
+      ouvrirFormulaire();
+      formulaire.elements.immatriculation.focus();
     }
 
     if (bouton.dataset.action === "supprimer") {
       if (!confirm("Supprimer cette voiture ?")) return;
+      effacerMessage();
       try {
         await api.supprimer("/voitures/", id);
         await charger();
       } catch (erreur) {
-        alert("Suppression impossible : cette voiture a peut-être des réservations.");
+        afficherMessage(`Suppression impossible : ${messageErreur(erreur)}`);
       }
     }
   });

@@ -773,6 +773,161 @@ img {
   gap: 16px;
 }
 
+.entete-page-donnees {
+  align-items: center;
+  gap: 18px;
+}
+
+.bouton-ajout-page {
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.bouton-ajout-page svg {
+  width: 18px;
+  height: 18px;
+}
+
+.message-page-donnees {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.panneau-formulaire-donnees {
+  display: grid;
+  gap: 20px;
+}
+
+#contenu .entete-formulaire-donnees h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.entete-formulaire-donnees p {
+  color: var(--texte-secondaire);
+  font-size: 0.84rem;
+}
+
+.formulaire-donnees {
+  display: grid;
+  gap: 20px;
+}
+
+.grille-formulaire-donnees {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.grille-formulaire-voiture {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grille-formulaire-donnees label {
+  gap: 8px;
+}
+
+.grille-formulaire-donnees .libelle-champ {
+  color: var(--texte);
+  font-size: 0.83rem;
+  font-weight: 650;
+}
+
+.grille-formulaire-donnees .libelle-champ > span {
+  color: var(--violet-principal);
+}
+
+.actions-formulaire-donnees,
+.actions-ligne-donnee {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+#contenu .actions-ligne-donnee button {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+#contenu .actions-ligne-donnee button[data-action="modifier"] {
+  border-color: rgba(109, 40, 217, 0.18);
+  background: var(--violet-clair);
+  color: var(--violet-fonce);
+}
+
+#contenu .actions-ligne-donnee button[data-action="supprimer"] {
+  border-color: rgba(220, 38, 38, 0.15);
+  background: var(--danger-clair);
+  color: var(--danger);
+}
+
+.section-page-donnees {
+  min-width: 0;
+}
+
+.tableau-categories table,
+.tableau-voitures table {
+  min-width: 720px;
+}
+
+.tableau-categories th,
+.tableau-categories td,
+.tableau-voitures th,
+.tableau-voitures td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+.identifiant-donnee {
+  color: var(--texte-discret);
+  font-variant-numeric: tabular-nums;
+}
+
+.nom-donnee {
+  color: var(--texte);
+  font-weight: 700;
+}
+
+.modele-voiture {
+  color: var(--texte);
+  font-weight: 600;
+}
+
+.tarif-donnee {
+  color: var(--texte);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chargement-donnees {
+  height: 110px;
+  color: var(--texte-secondaire);
+  text-align: center !important;
+}
+
+.chargement-donnees .indicateur-chargement {
+  display: inline-block;
+  margin: 0 9px -5px 0;
+}
+
+.etat-vide-donnees {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+  color: var(--texte-secondaire);
+  font-weight: 400;
+  white-space: normal;
+}
+
+.etat-vide-donnees strong {
+  color: var(--texte);
+  font-size: 0.95rem;
+}
+
 .entete-clients {
   align-items: center;
   gap: 18px;
@@ -1112,6 +1267,10 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .grille-formulaire-voiture {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .barre-laterale {
     width: 224px;
   }
@@ -1132,6 +1291,15 @@ img {
 @media (max-width: 760px) {
   .grille-statuts {
     grid-template-columns: 1fr;
+  }
+
+  .grille-formulaire-donnees {
+    grid-template-columns: 1fr;
+  }
+
+  .entete-page-donnees {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .barre-laterale {
