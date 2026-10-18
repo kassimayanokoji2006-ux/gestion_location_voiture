@@ -869,14 +869,20 @@ img {
 }
 
 .tableau-categories table,
-.tableau-voitures table {
+.tableau-voitures table,
+.tableau-reservations table,
+.tableau-paiements table {
   min-width: 720px;
 }
 
 .tableau-categories th,
 .tableau-categories td,
 .tableau-voitures th,
-.tableau-voitures td {
+.tableau-voitures td,
+.tableau-reservations th,
+.tableau-reservations td,
+.tableau-paiements th,
+.tableau-paiements td {
   padding: 14px 16px;
   vertical-align: middle;
 }
@@ -926,6 +932,45 @@ img {
 .etat-vide-donnees strong {
   color: var(--texte);
   font-size: 0.95rem;
+}
+
+.tableau-reservations table {
+  min-width: 860px;
+}
+
+.tableau-paiements table {
+  min-width: 760px;
+}
+
+.date-reservation,
+.date-paiement {
+  color: var(--texte-secondaire);
+  white-space: nowrap;
+}
+
+.estimation-reservation,
+.solde-reservation {
+  padding: 12px 14px;
+  border: 1px solid rgba(109, 40, 217, 0.14);
+  border-radius: var(--rayon-petit);
+  background: var(--violet-clair);
+  color: var(--violet-fonce);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.badge-mode-paiement {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 10px;
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  background: var(--conteneur-secondaire);
+  color: var(--texte-secondaire);
+  font-size: 0.75rem;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .entete-clients {
