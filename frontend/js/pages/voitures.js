@@ -10,26 +10,26 @@ export function afficherVoitures(conteneur) {
 
     <form id="formulaire">
       <h2 id="titre-formulaire">Ajouter une voiture</h2>
-      <input name="immatriculation" placeholder="Immatriculation" required>
-      <input name="marque" placeholder="Marque" required>
-      <input name="modele" placeholder="Modèle" required>
-      <input name="annee" type="number" min="1990" max="2100" placeholder="Année">
-      <input name="couleur" placeholder="Couleur">
+      <input name="immatriculation" placeholder="Immatriculation" required><br>
+      <input name="marque" placeholder="Marque" required><br>
+      <input name="modele" placeholder="Modèle" required><br>
+      <input name="annee" type="number" min="1990" max="2100" placeholder="Année"><br>
+      <input name="couleur" placeholder="Couleur"><br>
 
       <select name="carburant">
         <option value="Essence">Essence</option>
         <option value="Diesel">Diesel</option>
         <option value="Hybride">Hybride</option>
         <option value="Electrique">Électrique</option>
-      </select>
+      </select><br>
 
       <input name="prix_jour" type="number" step="0.01" min="0" placeholder="Prix par jour" required>
 
-      <select name="statut">
+      <br><select name="statut">
         <option value="disponible">Disponible</option>
         <option value="loue">Loué</option>
         <option value="maintenance">Maintenance</option>
-      </select>
+      </select><br>
 
       <select name="categorie" id="liste-categories" required>
         <option value="">-- Choisir une catégorie --</option>

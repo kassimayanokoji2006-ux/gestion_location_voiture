@@ -6,8 +6,8 @@ export function afficherDisponibilites(conteneur) {
     <h1>Voitures disponibles</h1>
 
     <form id="formulaire">
-      <label>Du <input name="debut" type="date" required></label>
-      <label>Au <input name="fin" type="date" required></label>
+      <label>Du <input name="debut" type="date" required></label><br>
+      <label>Au <input name="fin" type="date" required></label><br>
       <button type="submit">Rechercher</button>
     </form>
 

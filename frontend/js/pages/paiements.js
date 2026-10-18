@@ -18,18 +18,18 @@ export function afficherPaiements(conteneur) {
 
       <p id="reste" hidden></p>
 
-      <input name="montant" type="number" step="0.01" min="0.01" placeholder="Montant" required>
+      <input name="montant" type="number" step="0.01" min="0.01" placeholder="Montant" required><br>
 
       <select name="mode_paiement">
         <option value="especes">Espèces</option>
         <option value="mobile_money">Mobile Money</option>
         <option value="carte">Carte</option>
         <option value="virement">Virement</option>
-      </select>
+      </select><br>
 
-      <input name="reference" placeholder="Référence (facultatif)">
+      <input name="reference" placeholder="Référence (facultatif)"><br>
 
-      <button type="submit" id="btn-valider">Payer</button>
+      <button type="submit" id="btn-valider">Payer</button><br>
       <button type="button" id="btn-annuler" hidden>Annuler</button>
     </form>
 

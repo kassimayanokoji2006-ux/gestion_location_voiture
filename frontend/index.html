@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion_location_vehicule</title>
+    <link rel="stylesheet" href="js/css/style.css">
+
 </head>
 <body>
-    <nav id="menu"></nav>
-    <main id="contenu"></main>
+    <aside class="barre-laterale">
+        <div class="marque-barre-laterale">
+            <span class="symbole-marque" aria-hidden="true">A</span>
+            <span>AutoLoc</span>
+        </div>
+        <nav id="menu" aria-label="Navigation principale"></nav>
+        <p class="pied-barre-laterale">Gestion de flotte automobile</p>
+    </aside>
+    <div class="enveloppe-application">
+        <header class="barre-superieure">
+            <p>Espace de gestion</p>
+            <span class="contexte-barre-superieure">Location automobile</span>
+        </header>
+        <main id="contenu" class="contenu-page"></main>
+    </div>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

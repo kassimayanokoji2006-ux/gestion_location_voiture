@@ -14,14 +14,14 @@ export function afficherReservations(conteneur) {
 
       <select name="client" id="liste-clients" required>
         <option value="">-- Choisir un client --</option>
-      </select>
+      </select><br>
 
       <select name="voiture" id="liste-voitures" required>
         <option value="">-- Choisir une voiture --</option>
-      </select>
+      </select><br>
 
-      <label>Du <input name="date_debut" type="date" required></label>
-      <label>Au <input name="date_fin" type="date" required></label>
+      <label>Du <input name="date_debut" type="date" required></label><br>
+      <label>Au <input name="date_fin" type="date" required></label><br>
 
       <select name="statut">
         <option value="en_attente">En attente</option>

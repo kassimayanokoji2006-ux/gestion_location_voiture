@@ -9,13 +9,13 @@ export function afficherClients(conteneur) {
     <h1>Gestion des clients</h1>
 
     <form id="formulaire">
-      <h2 id="titre-formulaire">Ajouter un client</h2>
-      <input name="nom" placeholder="Nom" required>
-      <input name="prenom" placeholder="Prénom" required>
-      <input name="telephone" placeholder="Téléphone" required>
-      <input name="email" type="email" placeholder="Email">
-      <input name="numero_permis" placeholder="Numéro de permis" required>
-      <input name="adresse" placeholder="Adresse">
+      <h2 id="titre-formulaire">Ajouter client</h2>
+      <input name="nom" placeholder="Nom" required><br>
+      <input name="prenom" placeholder="Prénom" required><br>
+      <input name="telephone" placeholder="Téléphone" required><br>
+      <input name="email" type="email" placeholder="Email"><br>
+      <input name="numero_permis" placeholder="Numéro de permis" required><br>
+      <input name="adresse" placeholder="Adresse"><br>
       <button type="submit" id="btn-valider">Ajouter</button>
       <button type="button" id="btn-annuler" hidden>Annuler</button>
     </form>
