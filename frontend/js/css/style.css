@@ -80,7 +80,7 @@ img {
   inset: 0 auto 0 0;
   z-index: 20;
   display: flex;
-  width: 250px;
+  width: 240px;
   flex-direction: column;
   padding: 26px 18px 22px;
   border-right: 1px solid var(--bordure);
@@ -93,7 +93,7 @@ img {
   align-items: center;
   gap: 12px;
   padding: 0 10px 24px;
-  color: var(--texte);
+  color: var(--violet-principal);
   font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -118,6 +118,9 @@ img {
 }
 
 .lien-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
   padding: 12px 14px;
   border: 0;
@@ -131,9 +134,26 @@ img {
   cursor: pointer;
 }
 
+.lien-navigation svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+}
+
+.lien-navigation span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .lien-navigation:hover {
   background: var(--violet-clair);
   color: var(--violet-fonce);
+}
+
+.lien-navigation:focus-visible {
+  outline: 3px solid rgba(109, 40, 217, 0.24);
+  outline-offset: 2px;
 }
 
 .lien-navigation.actif {
@@ -151,7 +171,7 @@ img {
 
 .enveloppe-application {
   min-height: 100vh;
-  margin-left: 250px;
+  margin-left: 240px;
 }
 
 .barre-superieure {
@@ -165,24 +185,33 @@ img {
   backdrop-filter: blur(10px);
 }
 
-.barre-superieure p {
+.titre-barre-superieure {
   margin: 0;
   color: var(--texte);
-  font-size: 0.96rem;
+  font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.contexte-barre-superieure {
+.profil-administrateur {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--bordure);
-  border-radius: 999px;
-  background: var(--conteneur-secondaire);
-  color: var(--texte-secondaire);
-  font-size: 0.75rem;
+  gap: 10px;
+  color: var(--texte);
+  font-size: 0.85rem;
   font-weight: 600;
+}
+
+.avatar-administrateur {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(109, 40, 217, 0.12);
+  border-radius: 50%;
+  background: var(--violet-clair);
+  color: var(--violet-fonce);
+  font-weight: 700;
 }
 
 .contenu-page {
@@ -194,6 +223,10 @@ img {
 #contenu {
   display: grid;
   gap: 24px;
+}
+
+#contenu > h1 {
+  display: none;
 }
 
 #contenu h1,
@@ -633,11 +666,11 @@ img {
 
 @media (max-width: 980px) {
   .barre-laterale {
-    width: 220px;
+    width: 224px;
   }
 
   .enveloppe-application {
-    margin-left: 220px;
+    margin-left: 224px;
   }
 
   .barre-superieure {
@@ -688,10 +721,6 @@ img {
 }
 
 @media (max-width: 520px) {
-  .contexte-barre-superieure {
-    display: none;
-  }
-
   #contenu > form {
     padding: 16px;
   }
