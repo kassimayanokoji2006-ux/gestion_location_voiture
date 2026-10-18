@@ -170,6 +170,8 @@ img {
 }
 
 .enveloppe-application {
+  width: calc(100% - 240px);
+  min-width: 0;
   min-height: 100vh;
   margin-left: 240px;
 }
@@ -183,6 +185,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
   min-height: 72px;
   padding: 0 36px;
   border-bottom: 1px solid var(--bordure);
@@ -191,6 +194,8 @@ img {
 }
 
 .titre-barre-superieure {
+  min-width: 0;
+  flex: 1 1 auto;
   margin: 0;
   color: var(--texte);
   font-size: 1.15rem;
@@ -201,6 +206,7 @@ img {
 .profil-administrateur {
   display: inline-flex;
   align-items: center;
+  flex: 0 0 auto;
   gap: 10px;
   color: var(--texte);
   font-size: 0.85rem;
@@ -221,13 +227,22 @@ img {
 
 .contenu-page {
   width: min(100%, 1440px);
+  min-width: 0;
   margin: 0 auto;
   padding: 32px 36px 48px;
 }
 
 #contenu {
   display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   gap: 24px;
+}
+
+#contenu > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 #contenu > h1 {
@@ -276,7 +291,8 @@ img {
 
 #contenu > form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  min-width: 0;
   align-items: end;
   gap: 14px;
   padding: 22px;
@@ -303,6 +319,8 @@ img {
 #contenu select,
 #contenu textarea {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 44px;
   padding: 10px 12px;
   border: 1px solid var(--bordure);
@@ -366,7 +384,8 @@ img {
 
 #contenu > ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  min-width: 0;
   gap: 14px;
   margin: 0;
   padding: 0;
@@ -403,7 +422,11 @@ img {
 #resultat > table,
 .tableau-defilant {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--bordure);
   border-radius: 16px;
   background: var(--conteneur);
@@ -413,6 +436,7 @@ img {
 #contenu table,
 #resultat table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   min-width: 700px;
 }
@@ -520,8 +544,14 @@ img {
 .grille-cartes,
 .grille-statistiques {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  min-width: 0;
   gap: 16px;
+}
+
+.grille-cartes > *,
+.grille-statistiques > * {
+  min-width: 0;
 }
 
 .carte-statistique {
@@ -673,6 +703,9 @@ img {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
+  min-width: 0;
+  gap: 16px;
 }
 
 #contenu .entete-tableau h1 {
@@ -770,6 +803,7 @@ img {
 
 .section-tableau {
   display: grid;
+  min-width: 0;
   gap: 16px;
 }
 
@@ -795,6 +829,7 @@ img {
 
 .panneau-formulaire-donnees {
   display: grid;
+  min-width: 0;
   gap: 20px;
 }
 
@@ -816,6 +851,7 @@ img {
 .grille-formulaire-donnees {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
   gap: 16px;
 }
 
@@ -1002,10 +1038,6 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
-.tableau-disponibilites {
-  overflow: hidden;
-}
-
 .tableau-disponibilites table {
   min-width: 720px;
 }
@@ -1138,6 +1170,8 @@ img {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: 16px;
 }
 
@@ -1152,6 +1186,7 @@ img {
 .grille-statuts {
   display: grid;
   grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  min-width: 0;
   gap: 16px;
 }
 
@@ -1324,7 +1359,7 @@ img {
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1024px) {
   .statistiques-principales {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1338,6 +1373,7 @@ img {
   }
 
   .enveloppe-application {
+    width: calc(100% - 224px);
     margin-left: 224px;
   }
 
@@ -1350,7 +1386,7 @@ img {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .grille-statuts {
     grid-template-columns: 1fr;
   }
@@ -1426,6 +1462,7 @@ img {
   }
 
   .enveloppe-application {
+    width: 100%;
     margin-left: 0;
   }
 
@@ -1457,6 +1494,11 @@ img {
     padding: 22px 20px 32px;
   }
 
+  .barre-superieure {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
   .entete-clients {
     align-items: flex-start;
     flex-direction: column;
@@ -1471,10 +1513,20 @@ img {
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 480px) {
+  .contenu-page {
+    padding: 18px 14px 28px;
+  }
+
+  .barre-superieure {
+    gap: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
   .titre-barre-superieure {
     overflow: hidden;
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1497,6 +1549,21 @@ img {
 
   #contenu > form {
     padding: 16px;
+  }
+
+  .grille-formulaire-donnees,
+  .grille-formulaire-client {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actions-formulaire-donnees,
+  .actions-formulaire-client {
+    align-items: stretch;
+  }
+
+  .actions-formulaire-donnees > button,
+  .actions-formulaire-client > button {
+    max-width: 100%;
   }
 
   .panneau-formulaire-client {

@@ -57,7 +57,7 @@ const titrePage = document.getElementById("titre-page");
 const barreLaterale = document.getElementById("barre-laterale");
 const boutonMenuMobile = document.getElementById("bouton-menu-mobile");
 const voileMenu = document.querySelector(".voile-menu");
-const navigationMobile = window.matchMedia("(max-width: 760px)");
+const navigationMobile = window.matchMedia("(max-width: 768px)");
 
 function fermerMenuMobile({ rendreFocus = false } = {}) {
   document.body.classList.remove("menu-mobile-ouvert");

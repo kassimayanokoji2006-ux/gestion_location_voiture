@@ -10,22 +10,47 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from urllib.parse import urlsplit
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+def liste_environnement(nom, valeurs_par_defaut=()):
+    valeur = os.environ.get(nom)
+    if valeur is None:
+        return list(valeurs_par_defaut)
+    return [element.strip() for element in valeur.split(",") if element.strip()]
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_y$ch)fauk1cd%p^rr5$j@a^iz2rnotad-kl!pd1^uqs+z#1rh'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+def booleen_environnement(nom, valeur_par_defaut=False):
+    valeur = os.environ.get(nom)
+    if valeur is None:
+        return valeur_par_defaut
+    return valeur.strip().lower() in {"1", "true", "yes", "on"}
 
-ALLOWED_HOSTS = []
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise ImproperlyConfigured(
+        "Définissez SECRET_KEY dans l'environnement ou dans backend/.env."
+    )
+
+DEBUG = booleen_environnement("DEBUG")
+
+ALLOWED_HOSTS = liste_environnement(
+    "ALLOWED_HOSTS",
+    ("localhost", "127.0.0.1", "[::1]") if DEBUG else (),
+)
+nom_hote_render = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if nom_hote_render and nom_hote_render not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(nom_hote_render)
 
 
 # Application definition
@@ -45,6 +70,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,19 +100,32 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gestion_location_voiture',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    moteur_postgresql = urlsplit(database_url).scheme in {
+        "postgres",
+        "postgresql",
     }
-}
+    DATABASES = {
+        "default": dj_database_url.parse(
+            database_url,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=moteur_postgresql and not DEBUG,
+        )
+    }
+else:
+    if not DEBUG:
+        raise ImproperlyConfigured(
+            "DATABASE_URL est obligatoire lorsque DEBUG=False."
+        )
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
 
 
 # Password validation
@@ -123,10 +162,32 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+CSRF_TRUSTED_ORIGINS = liste_environnement(
+    "CSRF_TRUSTED_ORIGINS",
+    ("http://localhost:5500", "http://127.0.0.1:5500") if DEBUG else (),
+)
+CORS_ALLOWED_ORIGINS = liste_environnement(
+    "CORS_ALLOWED_ORIGINS",
+    ("http://localhost:5500", "http://127.0.0.1:5500") if DEBUG else (),
+)
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOW_ALL_ORIGINS = True
